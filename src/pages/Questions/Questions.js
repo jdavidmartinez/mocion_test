@@ -20,6 +20,7 @@ const Questions = () => {
   if (error) return <p>Error!</p>;
 
   const validationAnswer = (res) => {
+    // props.preventDefault();
     console.log(res);
     console.log(data.results[questionNumber].correct_answer);
     if (res === data.results[questionNumber].correct_answer) {
@@ -51,7 +52,7 @@ const Questions = () => {
               <h4>{`${questionNumber + 1} of 10`}</h4>
             </div>
             <div>
-              <Button onClick={() => validationAnswer("True")}>True</Button>
+              <Button onClick={() => validationAnswer('True')}>True</Button>
               <Button onClick={() => validationAnswer("False")}>False</Button>
             </div>
           </Card>

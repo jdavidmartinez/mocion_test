@@ -2,12 +2,18 @@ import { Fragment, useContext } from "react";
 
 import { DataContext } from "../Questions/Questions";
 import Card from "../../components/UI/Card/Card";
-import { array } from "prop-types";
 
 const Results = () => {
   const value = useContext(DataContext);
   const { data, answerArray } = value;
-  console.log(data, answerArray);
+  const finalData = data;
+
+  console.log(answerArray);
+
+  for (let i = 0; i <= 9; i++) {
+    finalData.results[i].answer = answerArray[i];
+  }
+  console.log(finalData);
 
   const score = () => {
     const finalScore = answerArray.reduce((a, b) => a + b, 0);
@@ -18,25 +24,20 @@ const Results = () => {
       <h2>Your scored</h2>
       <h1>{`${score()}/10`}</h1>
       {data.results.map((result) => {
-        
         let check = "";
-        //for(let i = 0; i=== answerArray.length; i++)
-        let i = 0;
-        result.correct_answer === "True" && answerArray[i] === 1
-        ? (check = "+")
-        : (check = "-")
-        i++;
+
+        result.correct_answer === "True" && result.answer === 1
+          ? (check = "+")
+          : (check = "-");
+
         return (
           <Fragment>
-           
             <h1>
-              {i}
               {check}
               {result.question}
             </h1>
           </Fragment>
         );
-        
       })}
     </Card>
   );
