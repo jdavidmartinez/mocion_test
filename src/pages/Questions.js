@@ -1,9 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useAxios from "axios-hooks";
-import { Link } from "react-router-dom";
+
+
 import Results from "./Results";
 
+export const DataContext = React.createContext();
+
 let currentQuestion = 0;
+
 const Questions = () => {
   const [questionNumber, setQuestionNumber] = useState(currentQuestion);
   const [answerArray, setAnswerArray] = useState([]);
@@ -32,7 +36,7 @@ const Questions = () => {
   };
   if (questionNumber <= 9) {
     return (
-      <div>
+      <>
         <div>
           <h1>{data.results[questionNumber].category}</h1>
           <h1>{questionNumber + 1}</h1>
@@ -42,13 +46,13 @@ const Questions = () => {
         </div>
         <button onClick={() => validationAnswer("True")}>True</button>
         <button onClick={() => validationAnswer("False")}>False</button>
-      </div>
+      </>
     );
   } else {
     return (
-      
-        <Results data={data} />
-     
+      <DataContext.Provider value={{ data, answerArray }}>
+        <Results />
+      </DataContext.Provider>
     );
   }
 };
