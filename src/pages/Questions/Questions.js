@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import useAxios from "axios-hooks";
 
-
-import Results from "./Results";
+import classes from "./Questions.module.css";
+import Button from "../../components/UI/Button.js/Button";
+import Card from "../../components/UI/Card/Card";
+import Results from "../Results/Results";
 
 export const DataContext = React.createContext();
 
@@ -21,9 +23,9 @@ const Questions = () => {
     console.log(res);
     console.log(data.results[questionNumber].correct_answer);
     if (res === data.results[questionNumber].correct_answer) {
-      console.log("Correcto");
+       console.log("Correcto");
       setAnswerArray([...answerArray, 1]);
-      console.log(answerArray);
+       console.log(answerArray);
       setQuestionNumber(currentQuestion++);
       console.log(currentQuestion);
     } else {
@@ -37,15 +39,23 @@ const Questions = () => {
   if (questionNumber <= 9) {
     return (
       <>
-        <div>
-          <h1>{data.results[questionNumber].category}</h1>
-          <h1>{questionNumber + 1}</h1>
+        <div className="question-container">
+          <Card>
+            <div>
+              <h1>{data.results[questionNumber].category}</h1>
+            </div>
+            <Card className={classes.question}>
+              <h3>{data.results[questionNumber].question}</h3>
+            </Card>
+            <div>
+              <h4>{`${questionNumber + 1} of 10`}</h4>
+            </div>
+            <div>
+              <Button onClick={() => validationAnswer("True")}>True</Button>
+              <Button onClick={() => validationAnswer("False")}>False</Button>
+            </div>
+          </Card>
         </div>
-        <div>
-          <h3>{data.results[questionNumber].question}</h3>
-        </div>
-        <button onClick={() => validationAnswer("True")}>True</button>
-        <button onClick={() => validationAnswer("False")}>False</button>
       </>
     );
   } else {
