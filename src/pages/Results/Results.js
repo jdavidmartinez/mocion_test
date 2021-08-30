@@ -1,9 +1,10 @@
 import { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
+
 import Button from "../../components/UI/Button.js/Button";
-import { DataContext } from "../Questions/Questions";
 import Card from "../../components/UI/Card/Card";
 import classes from "./Results.module.css";
+import { DataContext } from "../Questions/Questions";
 
 const Results = () => {
   const value = useContext(DataContext);
@@ -23,7 +24,7 @@ const Results = () => {
   };
   return (
     <>
-       <div className={classes.container}>
+      <div className={classes.container}>
         <Card>
           <h1>Your scored</h1>
           <h1>{`${score()}/10`}</h1>
@@ -36,19 +37,18 @@ const Results = () => {
 
             return (
               <Fragment>
-                <h3>
-                  {check}
-                  {result.question}
-                </h3>
-               
+                <div className={classes.answers}>
+                  <div className={classes.check}>{check}</div>
+                  <div className={classes.question_item}>{result.question}</div>
+                </div>
               </Fragment>
             );
           })}
         </Card>
       </div>
       <Link to="/">
-            <Button>Home</Button>
-          </Link>
+        <Button>Home</Button>
+      </Link>
     </>
   );
 };
