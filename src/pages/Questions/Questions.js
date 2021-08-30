@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import useAxios from "axios-hooks";
+import { Redirect } from "react-router";
 
-import classes from "./Questions.module.css";
 import Button from "../../components/UI/Button.js/Button";
 import Card from "../../components/UI/Card/Card";
+import classes from "./Questions.module.css";
 import Results from "../Results/Results";
 
 export const DataContext = React.createContext();
@@ -24,9 +25,9 @@ const Questions = () => {
     console.log(res);
     console.log(data.results[questionNumber].correct_answer);
     if (res === data.results[questionNumber].correct_answer) {
-       console.log("Correcto");
+      console.log("Correcto");
       setAnswerArray([...answerArray, 1]);
-       console.log(answerArray);
+      console.log(answerArray);
       setQuestionNumber(currentQuestion++);
       console.log(currentQuestion);
     } else {
@@ -40,7 +41,7 @@ const Questions = () => {
   if (questionNumber <= 9) {
     return (
       <>
-        <div className="question-container">
+        <div className={classes.container}>
           <Card>
             <div>
               <h1>{data.results[questionNumber].category}</h1>
@@ -52,7 +53,7 @@ const Questions = () => {
               <h4>{`${questionNumber + 1} of 10`}</h4>
             </div>
             <div>
-              <Button onClick={() => validationAnswer('True')}>True</Button>
+              <Button onClick={() => validationAnswer("True")}>True</Button>
               <Button onClick={() => validationAnswer("False")}>False</Button>
             </div>
           </Card>
@@ -60,10 +61,15 @@ const Questions = () => {
       </>
     );
   } else {
+    
     return (
-      <DataContext.Provider value={{ data, answerArray }}>
-        <Results />
-      </DataContext.Provider>
+      <>
+        <DataContext.Provider value={{ data, answerArray }}>
+          <Results />
+          {/* <Redirect to="/Results"/> */}
+        </DataContext.Provider>
+
+      </>
     );
   }
 };

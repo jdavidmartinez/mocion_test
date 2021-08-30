@@ -1,7 +1,9 @@
 import { Fragment, useContext } from "react";
-
+import { Link } from "react-router-dom";
+import Button from "../../components/UI/Button.js/Button";
 import { DataContext } from "../Questions/Questions";
 import Card from "../../components/UI/Card/Card";
+import classes from "./Results.module.css";
 
 const Results = () => {
   const value = useContext(DataContext);
@@ -20,26 +22,34 @@ const Results = () => {
     return finalScore;
   };
   return (
-    <Card>
-      <h2>Your scored</h2>
-      <h1>{`${score()}/10`}</h1>
-      {data.results.map((result) => {
-        let check = "";
+    <>
+       <div className={classes.container}>
+        <Card>
+          <h1>Your scored</h1>
+          <h1>{`${score()}/10`}</h1>
+          {data.results.map((result) => {
+            let check = "";
 
-        result.correct_answer === "True" && result.answer === 1
-          ? (check = "+")
-          : (check = "-");
+            result.correct_answer === "True" && result.answer === 1
+              ? (check = "+")
+              : (check = "-");
 
-        return (
-          <Fragment>
-            <h1>
-              {check}
-              {result.question}
-            </h1>
-          </Fragment>
-        );
-      })}
-    </Card>
+            return (
+              <Fragment>
+                <h3>
+                  {check}
+                  {result.question}
+                </h3>
+               
+              </Fragment>
+            );
+          })}
+        </Card>
+      </div>
+      <Link to="/">
+            <Button>Home</Button>
+          </Link>
+    </>
   );
 };
 
