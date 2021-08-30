@@ -1,6 +1,8 @@
+// Import libraries
 import React, { useState } from "react";
 import useAxios from "axios-hooks";
 
+// Import Components
 import Button from "../../components/UI/Button.js/Button";
 import Card from "../../components/UI/Card/Card";
 import classes from "./Questions.module.css";
@@ -11,32 +13,26 @@ export const DataContext = React.createContext();
 let currentQuestion = 0;
 
 const Questions = () => {
+  //Initial states
   const initialArray = [];
   const [questionNumber, setQuestionNumber] = useState(currentQuestion);
   const [answerArray, setAnswerArray] = useState(initialArray);
 
+  // feche data via Axios 
   const [{ data, loading, error }] = useAxios(
     "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean"
   );
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
+  //Validate user's answer vs data
   const validationAnswer = (res) => {
-    console.log(`answer${res}, currentQuestion ${currentQuestion} ${data.results[questionNumber].correct_answer}`);
-    console.log(`answerArray${answerArray}`)
-    console.log(data.results[questionNumber].correct_answer);
     if (res === data.results[questionNumber].correct_answer) {
-      console.log("Correcto");
       setAnswerArray([...initialArray, 1]);
-      console.log(answerArray);
       setQuestionNumber(currentQuestion++);
-      console.log(currentQuestion);
     } else {
-      console.log("Incorrecto");
       setAnswerArray([...answerArray, 0]);
-      console.log(answerArray);
       setQuestionNumber(currentQuestion++);
-      console.log(currentQuestion);
     }
   };
 
@@ -55,8 +51,18 @@ const Questions = () => {
               <h4>{`${questionNumber + 1} of 10`}</h4>
             </div>
             <div>
-              <Button className={classes.true_button} onClick={() => validationAnswer("True")}>True</Button>
-              <Button className={classes.false_button} onClick={() => validationAnswer("False")}>False</Button>
+              <Button
+                className={classes.true_button}
+                onClick={() => validationAnswer("True")}
+              >
+                True
+              </Button>
+              <Button
+                className={classes.false_button}
+                onClick={() => validationAnswer("False")}
+              >
+                False
+              </Button>
             </div>
           </Card>
         </div>
@@ -68,7 +74,6 @@ const Questions = () => {
         <DataContext.Provider value={{ data, answerArray }}>
           <Results />
         </DataContext.Provider>
-        
       </>
     );
   }
